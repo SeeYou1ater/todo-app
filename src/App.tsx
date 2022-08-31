@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import './App.css';
+import InputField from './components/InputField';
+import ToDoList from './components/ToDoList';
 
-interface ITodo {
+export interface ITodo {
   id: string
   text: string
   completed: boolean
@@ -43,19 +45,8 @@ function App() {
   
   return (
     <div className="App">
-      <label>
-        <input type="text" value={text} onChange={ (e) => { setText(e.currentTarget.value) }}/>
-        <button onClick={addTodo}>Add todo</button>
-      </label>
-      <ul>
-        {
-          todos.map( todo => <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => { toggleTodoChecked(todo.id) } }/>
-            <span>{todo.text}</span>
-            <span className='delete' onClick={ () => { removeTodo(todo.id) } }>&times;</span>
-            </li> )
-        }
-      </ul>
+      <InputField text={text} setText={setText} addTodo={addTodo}/>
+      <ToDoList todos={todos} toggleTodoChecked={toggleTodoChecked} removeTodo={removeTodo}/>
     </div>
   );
 }
