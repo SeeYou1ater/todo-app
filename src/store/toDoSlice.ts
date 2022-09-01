@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IAddTodoType {
+interface IInitialState {
+  todos: Array<IAddTodo>
+}
+
+interface IAddTodo {
   id: string
   text: string
   completed: boolean
@@ -9,8 +13,8 @@ interface IAddTodoType {
 const todoSlice = createSlice({
   name: 'todo',
   initialState: {
-    todos: [] as Array<IAddTodoType>
-  },
+    todos: []
+  } as IInitialState,
   reducers: {
     addTodo(state, action) {
       state.todos.push({
@@ -19,8 +23,16 @@ const todoSlice = createSlice({
         completed: false
       })
     },
-    removeTodo(state, action) {},
-    toggleTodoChecked(state, action) {}
+    removeTodo(state, action) {
+      state.todos = state.todos.filter(todo => action.payload.id !== todo.id)
+    },
+    toggleTodoChecked(state, action) {
+      state.todos = state.todos.map( todo => { 
+        if ( action.payload.id === todo.id) { 
+          return {...todo, completed: !todo.completed}
+        } else return todo
+      })
+    }
   }
 })
 

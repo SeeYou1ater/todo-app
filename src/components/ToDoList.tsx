@@ -1,16 +1,15 @@
+import { useSelector } from "react-redux"
 import { ITodo } from "../App"
+import { RootStateType } from "../store"
 import ToDoItem from "./ToDoItem"
 
-interface IProps {
-  todos: Array<ITodo>
-  toggleTodoChecked: (todoId: string) => void
-  removeTodo: (todoId: string) => void
-}
+const ToDoList: React.FC = () => {
 
-const ToDoList:React.FC<IProps> = ({todos, toggleTodoChecked, removeTodo}) => {
+  const todos = useSelector( (state: RootStateType) => state.todos.todos )
+
   return (
     <ul>
-      { todos.map( (todo: ITodo) => <ToDoItem removeTodo={removeTodo} toggleTodoChecked={toggleTodoChecked} id={todo.id} text={todo.text} completed={todo.completed}/>) }
+      { todos.map( (todo: ITodo) => <ToDoItem id={todo.id} text={todo.text} completed={todo.completed}/>) }
     </ul>
   )
 }
