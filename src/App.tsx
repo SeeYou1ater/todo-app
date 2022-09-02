@@ -1,9 +1,10 @@
+import { Http2ServerRequest } from 'http2';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import InputField from './components/InputField';
 import ToDoList from './components/ToDoList';
-import { AppDispatchType } from './store';
+import { AppDispatchType, RootStateType } from './store';
 import { addTodo, fetchTodos } from './store/toDoSlice';
 
 export interface ITodo {
@@ -15,6 +16,7 @@ export interface ITodo {
 function App() {
 
   const dispatch: AppDispatchType = useDispatch()
+  const { status, error } = useSelector( (state: RootStateType) => state.todos)
   const [title, setText] = useState('')
 
   useEffect( () => {
@@ -29,6 +31,8 @@ function App() {
   return (
     <div className="App">
       <InputField title={title} setText={setText} addTodo={addTask}/>
+      { status === 'loading' && <h2>Loading...</h2> }
+      { error && <h2>An error occured: {error}</h2> } 
       <ToDoList/>
     </div>
   );
