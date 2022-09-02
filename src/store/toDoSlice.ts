@@ -41,6 +41,28 @@ export const deleteTodo = createAsyncThunk('todos/deleteTodos',
     }
 })
 
+export const toggleChecked = createAsyncThunk('todos/toggleChecked', 
+  async function (id: string, {rejectWithValue, dispatch, getState}: any) {
+    const todo = getState().todos.todos.find ( (todo: any) => todo.id === id)
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          completed: !todo.completed
+        })
+      })
+      if (response.ok) {
+        dispatch(toggleTodoChecked({id}))
+      } else { throw new Error('Cant\'t change checked task!') }
+    } catch (error) {
+      //@ts-ignore
+      return rejectWithValue(error.message)
+    }
+})
+
 const todoSlice = createSlice({
   name: 'todo',
   initialState: {
@@ -80,6 +102,11 @@ const todoSlice = createSlice({
     },
     //@ts-ignore
     [fetchTodos.rejected]: (state: IInitialState, action: any) => {
+      state.status = 'rejected'
+      state.error = action.payload
+    },
+    //@ts-ignore
+    [deleteTodo.rejected]: (state: IInitialState, action: any) => {
       state.status = 'rejected'
       state.error = action.payload
     },
