@@ -4,11 +4,11 @@ import { removeTodo, toggleTodoChecked } from "../store/toDoSlice"
 
 export interface ITodoItemProps {
   id: string
-  text: string
+  title: string
   completed: boolean
 }
 
-const ToDoItem: React.FC<ITodoItemProps> = ({id, text, completed}) => {
+const ToDoItem: React.FC<ITodoItemProps> = ({id, title, completed}) => {
 
   const dispatch: AppDispatchType = useDispatch()
 
@@ -23,7 +23,7 @@ const ToDoItem: React.FC<ITodoItemProps> = ({id, text, completed}) => {
   return (
     <li key={id}>
       <input type="checkbox" checked={completed} onChange={toggleTodo}/>
-      <span>{text}</span>
+      <span>{title}</span>
       <span className='delete' onClick={removeTask}>&times;</span>
     </li>
   )

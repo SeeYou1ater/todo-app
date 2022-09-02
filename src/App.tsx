@@ -1,30 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './App.css';
 import InputField from './components/InputField';
 import ToDoList from './components/ToDoList';
 import { AppDispatchType } from './store';
-import { addTodo } from './store/toDoSlice';
+import { addTodo, fetchTodos } from './store/toDoSlice';
 
 export interface ITodo {
   id: string
-  text: string
+  title: string
   completed: boolean
 }
 
 function App() {
 
   const dispatch: AppDispatchType = useDispatch()
-  const [text, setText] = useState('')
+  const [title, setText] = useState('')
+
+  useEffect( () => {
+    dispatch(fetchTodos())
+  }, [dispatch])
 
   const addTask = () => {
-    dispatch(addTodo({text}))
+    dispatch(addTodo({title}))
     setText('')
   }
   
   return (
     <div className="App">
-      <InputField text={text} setText={setText} addTodo={addTask}/>
+      <InputField title={title} setText={setText} addTodo={addTask}/>
       <ToDoList/>
     </div>
   );
