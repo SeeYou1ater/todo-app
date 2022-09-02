@@ -63,6 +63,11 @@ export const toggleChecked = createAsyncThunk('todos/toggleChecked',
     }
 })
 
+const setError = (state: IInitialState, action: any) => {
+  state.status = 'rejected'
+  state.error = action.payload
+}
+
 const todoSlice = createSlice({
   name: 'todo',
   initialState: {
@@ -101,15 +106,11 @@ const todoSlice = createSlice({
       state.todos = action.payload
     },
     //@ts-ignore
-    [fetchTodos.rejected]: (state: IInitialState, action: any) => {
-      state.status = 'rejected'
-      state.error = action.payload
-    },
+    [fetchTodos.rejected]: setError,
     //@ts-ignore
-    [deleteTodo.rejected]: (state: IInitialState, action: any) => {
-      state.status = 'rejected'
-      state.error = action.payload
-    },
+    [deleteTodo.rejected]: setError,
+    //@ts-ignore
+    [toggleChecked.rejected]: setError,
   }
 })
 
