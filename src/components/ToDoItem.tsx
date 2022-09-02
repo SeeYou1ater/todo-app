@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { AppDispatchType } from "../store"
-import { deleteTodo, toggleChecked, toggleTodoChecked } from "../store/toDoSlice"
+import { deleteTodo, toggleChecked } from "../store/toDoSlice"
 
 export interface ITodoItemProps {
   id: string

@@ -63,6 +63,31 @@ export const toggleChecked = createAsyncThunk('todos/toggleChecked',
     }
 })
 
+export const addNewTodo = createAsyncThunk('todos/addNewTodo', 
+  async function (text: string, {rejectWithValue, dispatch}) {
+    try {
+      const todo = {
+        title: text,
+        userId: 1,
+        completed: false
+      }
+      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(todo)
+      })
+      if (response.ok) {
+        const data = await response.json()
+        dispatch(addTodo(data))
+      } else { throw new Error('Cant\'t delete task!') }
+    } catch (error) {
+      //@ts-ignore
+      return rejectWithValue(error.message)
+    }
+})
+
 const setError = (state: IInitialState, action: any) => {
   state.status = 'rejected'
   state.error = action.payload
@@ -77,11 +102,7 @@ const todoSlice = createSlice({
   } as IInitialState,
   reducers: {
     addTodo(state: IInitialState, action: any) {
-      state.todos.push({
-        id: new Date().toISOString(),
-        title: action.payload.title,
-        completed: false
-      })
+      state.todos.push(action.payload)
     },
     removeTodo(state: IInitialState, action: any) {
       state.todos = state.todos.filter(todo => action.payload.id !== todo.id)
@@ -114,6 +135,6 @@ const todoSlice = createSlice({
   }
 })
 
-export const { addTodo, removeTodo, toggleTodoChecked } = todoSlice.actions
+const { addTodo, removeTodo, toggleTodoChecked } = todoSlice.actions
 
 export default todoSlice.reducer

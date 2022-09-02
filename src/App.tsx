@@ -5,7 +5,7 @@ import './App.css';
 import InputField from './components/InputField';
 import ToDoList from './components/ToDoList';
 import { AppDispatchType, RootStateType } from './store';
-import { addTodo, fetchTodos } from './store/toDoSlice';
+import { addNewTodo, fetchTodos } from './store/toDoSlice';
 
 export interface ITodo {
   id: string
@@ -24,7 +24,7 @@ function App() {
   }, [dispatch])
 
   const addTask = () => {
-    dispatch(addTodo({title}))
+    dispatch(addNewTodo(title))
     setText('')
   }
   
