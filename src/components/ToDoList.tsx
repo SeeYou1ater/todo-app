@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { ITodo } from "../App"
-import { RootStateType } from "../store"
+import { RootStateType } from "../store/store"
 import ToDoItem from "./ToDoItem"
 
 const ToDoList: React.FC = () => {
