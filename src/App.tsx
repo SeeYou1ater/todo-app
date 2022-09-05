@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import InputField from './components/InputField';
 import ToDoList from './components/ToDoList';
-import { AppDispatchType, RootStateType } from './store';
+import { AppDispatchType, RootStateType } from './store/store';
 import { addNewTodo, fetchTodos } from './store/toDoSlice';
 
 export interface ITodo {
