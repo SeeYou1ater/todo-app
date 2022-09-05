@@ -81,7 +81,7 @@ export const addNewTodo = createAsyncThunk('todos/addNewTodo',
       if (response.ok) {
         const data = await response.json()
         dispatch(addTodo(data))
-      } else { throw new Error('Cant\'t delete task!') }
+      } else { throw new Error('Cant\'t add task!') }
     } catch (error) {
       //@ts-ignore
       return rejectWithValue(error.message)
@@ -132,6 +132,9 @@ const todoSlice = createSlice({
     [deleteTodo.rejected]: setError,
     //@ts-ignore
     [toggleChecked.rejected]: setError,
+    //@ts-ignore
+    [addNewTodo.rejected]: setError,
+
   }
 })
 
